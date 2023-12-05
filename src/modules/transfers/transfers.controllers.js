@@ -37,12 +37,15 @@ export const createTransfer = async (req, res) => {
     const recipientUpdatePromise =  UserService.updateBalance(ReceiverAccount, newRecipientBalance) 
     const registerTransferPromise =  TransferModel.createTransfer(amount, SenderAccount.id, ReceiverAccount.id);
 
-    await Promise.all([senderUpdatePromise, recipientUpdatePromise, registerTransferPromise])  
+    const [sender] =await Promise.all([senderUpdatePromise, recipientUpdatePromise, registerTransferPromise])  
 
 
     return res.status(201).json({
       message: 'Transfer succesfully',
+      amount: amount,
+      total_available: sender.amount
     });
+    
   } catch (error) {
     console.log(error);
     return res.status(500).json({

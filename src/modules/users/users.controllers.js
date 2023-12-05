@@ -9,7 +9,10 @@ export const singup = async (req, res) => {
 
     const user = await UserService.singUp({ name, accountNumber, password });
 
-    return res.status(201).json(user);
+    return res.status(201).json({
+      message: "The account was created successfully",
+      user
+    });
   } catch (error) {
     console.log(error);
 
